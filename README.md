@@ -25,12 +25,12 @@ Project1
 
 * 现在我们不做任何优化，直接用最简单的三重循环模拟行乘列的矩阵乘法，测试它所需要的时间：
 
-  ![Screenshot 2020-11-15 193445](E:\code\MatrixProduct\picture\Screenshot 2020-11-15 193445.png)
+  ![Screenshot 2020-11-15 193445](https://github.com/Silver439/MatrixProduct/blob/main/picture/Screenshot%202020-11-15%20193445.png)
 
 这里我们将这种方法命名为normal，用时接近6秒。
 * 然后使用O3优化进行编译，再测试时间：
 
-  ![Screenshot 2020-11-15 193756](E:\code\MatrixProduct\picture\Screenshot 2020-11-15 193756.png)
+  ![Screenshot 2020-11-15 193756](https://github.com/Silver439/MatrixProduct/blob/main/picture/Screenshot%202020-11-15%20193756.png)
   
 * 可以看到速度有了明显的提升。注意由于矩阵是由随机数生成的，所以每次运行最终得到相同位置矩阵元素的结果并不相同。之后我会将各个方法同时运行以验证结果的正确性。
 
@@ -65,7 +65,7 @@ Project1
 
   这是最为简单直白的分块，仅仅只是在第一种方法上加以一点点的改动。运行结果如下：
 
-  ![Screenshot 2020-11-15 194632](E:\code\MatrixProduct\picture\Screenshot 2020-11-15 194632.png)
+  ![Screenshot 2020-11-15 194632](https://github.com/Silver439/MatrixProduct/blob/main/picture/Screenshot%202020-11-15%20194632.png)
   
 * 提速不到百分之20，效果不大。
 
@@ -120,7 +120,7 @@ void block2(matrix& m, matrix& n, matrix& g)
 
 称该方法为block2，测试时间为：
 
-![Screenshot 2020-11-15 200115](E:\code\MatrixProduct\picture\Screenshot 2020-11-15 200115.png)
+![Screenshot 2020-11-15 200115](https://github.com/Silver439/MatrixProduct/blob/main/picture/Screenshot%202020-11-15%20200115.png)
 
 优化超过百分之30，当然这离我们的目标还远远不够，但至少这样的分块是有作用的。之后我会将这种分块方法与其他优化方法相结合以进一步提高效率。
 
@@ -199,7 +199,7 @@ void block2(matrix& m, matrix& n, matrix& g)
 
   以上共有两个函数，第一个函数用于计算四行与四列乘积，得到4 * 4的部分结果。第二行是一个“packing”过程，即将数据“打包”到小矩阵里使得访存连续。这种“packing”方法我是借鉴了CSDN上一位博主的做法。运行结果如下：
 
-  ![Screenshot 2020-11-15 201603](E:\code\MatrixProduct\picture\Screenshot 2020-11-15 201603.png)
+  ![Screenshot 2020-11-15 201603](https://github.com/Silver439/MatrixProduct/blob/main/picture/Screenshot%202020-11-15%20201603.png)
 
 这时候已经提升约百分之75.
 * 在写完这个代码后，继续思考了有关访存连续的问题，觉得上述使用的所谓“packing”方法还是太过繁琐，我认为如果在计算A*B之前先将矩阵B转置，则乘法就从行乘列变为了行乘行，那么访存就自然变得连续了。我认为这样的方法会有更好的优化效果。下为具体代码：
@@ -261,7 +261,7 @@ void block2(matrix& m, matrix& n, matrix& g)
 
   上述代码共两个函数，第一个是用来转置的函数，第二个是计算函数。测试结果如下：
 
-  ![Screenshot 2020-11-15 202354](E:\code\MatrixProduct\picture\Screenshot 2020-11-15 202354.png)
+  ![Screenshot 2020-11-15 202354](https://github.com/Silver439/MatrixProduct/blob/main/picture/Screenshot%202020-11-15%20202354.png)
 
 遗憾的是，我的方法与上面方法效率几乎没有任何区别。
 * 目前看来我在访存上的优化已经遇到瓶颈，于是我想尝试老师上课提到的SSE指令集加速。我将上述senior__block2方法用SSE指令集重写了一遍，代码如下：
@@ -319,7 +319,7 @@ void block2(matrix& m, matrix& n, matrix& g)
 
   运行结果：
 
-  ![Screenshot 2020-11-15 202832](E:\code\MatrixProduct\picture\Screenshot 2020-11-15 202832.png)
+  ![Screenshot 2020-11-15 202832](https://github.com/Silver439/MatrixProduct/blob/main/picture/Screenshot%202020-11-15%20202832.png)
 
 我不得不承认这是一次相当失败的尝试。。由于我对SSE指令集原理的无知直接导致了这一灾难性的结果。我相信老师稍微看一下我的代码便会发现里面存在很大问题，我也对于解决这些问题做出了相当长时间的努力，然而迫于多门期中考试的压力，最终还是没有能够拥有足够的时间去解决。
 
@@ -356,19 +356,19 @@ void block2(matrix& m, matrix& n, matrix& g)
 
   可以看到代码十分简洁甚至可以说简单。测试结果如下：
 
-![Screenshot 2020-11-15 204405](E:\code\MatrixProduct\picture\Screenshot 2020-11-15 204405.png)
+![Screenshot 2020-11-15 204405](https://github.com/Silver439/MatrixProduct/blob/main/picture/Screenshot%202020-11-15%20204405.png)
 
 到此，我的优化便已超过了十倍。此后我又在该方法的基础上进行了诸多改进，均没有取得较为明显的效果。同时我还尝试使用openmp并行加速，但最终虽然速度变快了很多，结果却出现了极大的偏差，这种偏差已远远超出了误差的范围，故没有采用。
 
 接下来是对所有方法的运行结果图，可以看到它们算出的结果都是一样的：
 
-![Screenshot 2020-11-15 204854](E:\code\MatrixProduct\picture\Screenshot 2020-11-15 204854.png)
+![Screenshot 2020-11-15 204854](https://github.com/Silver439/MatrixProduct/blob/main/picture/Screenshot%202020-11-15%20204854.png)
 
 接下来是对10000 * 100000大小矩阵的测试。我将对比openblas和上述方法，分两次运行，结果不同，仅对比运行时间。
 
-![image-20201115205413637](C:\Users\Admin\AppData\Roaming\Typora\typora-user-images\image-20201115205413637.png)
+![image-20201115205413637](https://github.com/Silver439/MatrixProduct/blob/main/picture/Screenshot%202020-11-15%20205359.png)
 
-![Screenshot 2020-11-15 210052](E:\code\MatrixProduct\picture\Screenshot 2020-11-15 210052.png)
+![Screenshot 2020-11-15 210052](https://github.com/Silver439/MatrixProduct/blob/main/picture/Screenshot%202020-11-15%20210052.png)
 
 可以看到当数据量变大时差距就显现出来了。openblas一般在30秒以内，而我的方法则需要三分钟才能计算出结果。当然，在数据量适中的时候，例如一百万的数据量，两者的差距较小，可忽略不计。
 
@@ -517,7 +517,7 @@ void block2(matrix& m, matrix& n, matrix& g)
 
 * 接下来是对该程序的一些测试：
 
-   ![image-20201115231612304](C:\Users\Admin\AppData\Roaming\Typora\typora-user-images\image-20201115231612304.png)
+   ![image-20201115231612304](https://github.com/Silver439/MatrixProduct/blob/main/picture/Screenshot%202020-11-15%20231604.png)
 
    这是对于非法字符输入的处理。由于程序在接受矩阵长宽数值后会固定输入矩阵的数据量大小，所以不会存在输入数据过多或过少的情况。
 
@@ -525,11 +525,11 @@ void block2(matrix& m, matrix& n, matrix& g)
 
    
 
-![Screenshot 2020-11-15 232105](E:\code\MatrixProduct\picture\Screenshot 2020-11-15 232105.png)
+![Screenshot 2020-11-15 232105](https://github.com/Silver439/MatrixProduct/blob/main/picture/Screenshot%202020-11-15%20232105.png)
 
 结果是正确的。接下来对于较大数据量，自然无法采取手动输入的方式，于是我将blockproduct移入头文件进行测试。测试矩阵A*B分别为数据量大小541 * 238 和238 * 541的矩阵，其中541和238均无法被4整除。用最原始的三重循环方法得到的结果与blockproduct进行对比。（取两者结果的第六行第六列的元素值进行对比）
 
-![image-20201115232737996](C:\Users\Admin\AppData\Roaming\Typora\typora-user-images\image-20201115232737996.png)
+![image-20201115232737996](https://github.com/Silver439/MatrixProduct/blob/main/picture/Screenshot%202020-11-15%20232728.png)
 
 可以看到两者结果完全相同。注意由于我并没有进行O3优化，所以结果看上去有些慢。
 
