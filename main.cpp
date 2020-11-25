@@ -46,7 +46,7 @@ void quickproduct(matrix& m, matrix& n, matrix& g)
 	{
 		for (int k = 0; k < m.col; k++)
 		{
-			int v = m.data[i][k];
+			float v = m.data[i][k];
 			for (int j = 0; j < n.col; j++) {
 				g.data[i][j] += v * n.data[k][j];
 			}
